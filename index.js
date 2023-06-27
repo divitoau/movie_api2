@@ -1,6 +1,6 @@
-const express = require('express'),
-    morgan = require('morgan');
-    
+const express = require("express"),
+  morgan = require("morgan");
+
 const app = express();
 
 let topMovies = [
@@ -56,22 +56,70 @@ let topMovies = [
   },
 ];
 
-app.use(morgan('common'));
-app.use(express.static('public'));
+let users = [];
 
-app.get('/', (req, res) => {
-    res.send('Howdy, I hope you like movies!');
+app.use(morgan("common"));
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.send("Howdy, I hope you like movies!");
 });
 
-app.get('/movies', (req, res) => {
-    res.json(topMovies);
+app.get("/movies", (req, res) => {
+  res.json(topMovies);
+});
+
+app.get("/movies/:title", (req, res) => {
+  res.json(
+    topMovies.find((movie) => {
+      return movie.title === req.params.title;
+    })
+  );
+});
+
+app.get("/movies/:title/genre", (req, res) => {
+  res.send("a description of a genre");
+});
+
+app.get("/movies/:title/director", (req, res) => {
+  res.send("a json object of a director");
+});
+
+app.post("/users", (req, res) => {
+  let newUser = req.body;
+  if (!newUser.name) {
+    const message = "name is required";
+    res.status(400).send(message);
+  } else if (!newUser.username) {
+    const message = "username is required";
+    res.status(400).send(message);
+  } else {
+    newUser.id = uuid.v4();
+    users.push(newUser);
+    res.status(201).send(newUser); //should 'send, be 'json' instead?
+  }
+});
+
+app.put('/users/:id/:username', (req, res) => {
+  let user = users.find((user) => {
+    return user.id === req.params.id;
+  });
+
+  if (user) {
+    user.username = req.params.username
+    res
+      .status(201)
+      .send('username updated to ' + user.username);
+  } else {
+    res.status(404).send('no user found by id: ' + req.params.id);
+  }
 });
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
 
 app.listen(8080, () => {
-    console.log('Your app is listening on port 8080')
+  console.log("Your app is listening on port 8080");
 });
