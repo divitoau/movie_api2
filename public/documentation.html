@@ -1,12 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie API Documentation</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Super Cool Rad Movie Info</h1>
-    <p>This API provides users with access to information about different movies, directors, and genres.</p>
-</body>
+    <p>
+      This API provides users with access to information about different movies,
+      directors, and genres.
+    </p>
+    <table>
+      <tr>
+        <th>Business Logic</th>
+        <th>URL</th>
+        <th>HTTP Method</th>
+        <th>Request body data format</th>
+        <th>Response body data format</th>
+      </tr>
+      <tr>
+        <td>Get list of all movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object holding data <br> about all movies</td>
+      </tr>
+      <tr>
+        <td>Get movie data by title</td>
+        <td>/movies/[Title]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object holding data <br> about a single movie <br> structured like <br>
+            { <br> title : "Sucker Punch", <br> description : "[description]", <br> genre : "Action", <br>
+            director : "Zack Snyder", <br> imageURL : "[image URL]", <br> isFeatured : "false" <br> } </td>
+      </tr>
+      <tr>
+        <td>Get genre description by name</td>
+        <td>/movies/[Title]/[Genre]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A text description</td>
+      </tr>
+      <tr>
+        <td>Get director data by name</td>
+        <td>/movies/[Title]/[Director]</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>A JSON object structured like: <br> { <br> name : "Austin DiVito", <br> bio : "[bio]", <br>
+            birthYear : 1996, <br> deathYear : 2095 <br> } </td>
+      </tr>
+      <tr>
+        <td>Register new user</td>
+        <td>/users</td>
+        <td>POST</td>
+        <td>A JSON object structured like: <br> { <br> name : "Austin DiVito", <br>
+            username : "CoolDude475" <br> } </td>
+        <td>A JSON object structured like: <br> { <br> id : "uvwxyz", <br>
+            name : "Austin DiVito", <br> username : "CoolDude475" <br> } </td>
+      </tr>
+      <tr>
+        <td>Update username</td>
+        <td>/users/[ID]/[username]</td>
+        <td>PUT</td>
+        <td>none</td>
+        <td>A text message confirming the <br> new username</td>
+      </tr>
+      <tr>
+        <td>Add movie to favorites list</td>
+        <td>/users/[ID]/favorites/[Title]</td>
+        <td>POST</td>
+        <td>none</td>
+        <td>A text message confirming the <br> movie that was added</td>
+      </tr>
+      <tr>
+        <td>Remove movie from favorites list</td>
+        <td>/users/[ID]/favorites/[Title]</td>
+        <td>DELETE</td>
+        <td>none</td>
+        <td>A text message confirming the <br> movie that was removed</td>
+      </tr>
+      <tr>
+        <td>Deregister user</td>
+        <td>/users/[ID]</td>
+        <td>DELETE</td>
+        <td>none</td>
+        <td>A text message confirming the <br> user was deregistered</td>
+      </tr>
+    </table>
+  </body>
 </html>
