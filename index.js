@@ -5,7 +5,7 @@ const express = require("express"),
 
 const app = express();
 
-app.use(bodyParser.json());
+//movie list
 
 let topMovies = [
   {
@@ -62,21 +62,26 @@ let topMovies = [
 
 let users = [];
 
+app.use(bodyParser.json());
 app.use(morgan("common"));
 app.use(express.static("public"));
 
+//home page
 app.get("/", (req, res) => {
   res.send("Howdy, I hope you like movies!");
 });
 
+//get all movies
 app.get("/movies", (req, res) => {
   res.json(topMovies);
 });
 
+//get all users
 app.get("/users", (req, res) => {
   res.json(users);
 });
 
+//get movie data by title
 app.get("/movies/:title", (req, res) => {
   res.json(
     topMovies.find((movie) => {
@@ -85,14 +90,17 @@ app.get("/movies/:title", (req, res) => {
   );
 });
 
+//get genre description
 app.get("/movies/:title/genre", (req, res) => {
   res.send("a description of a genre");
 });
 
+//get director data
 app.get("/movies/:title/director", (req, res) => {
   res.send("a json object of a director");
 });
 
+//register new user
 app.post("/users", (req, res) => {
   let newUser = req.body;
 
@@ -110,6 +118,7 @@ app.post("/users", (req, res) => {
 }
 );
 
+//update username by id
 app.put('/users/:id/:username', (req, res) => {
   let user = users.find((user) => {
     return user.id === req.params.id;

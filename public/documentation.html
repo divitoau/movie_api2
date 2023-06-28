@@ -32,8 +32,8 @@
         <td>GET</td>
         <td>none</td>
         <td>A JSON object holding data <br> about a single movie <br> structured like <br>
-            { <br> title : "Sucker Punch", <br> description : "[description]", <br> genre : "Action", <br>
-            director : "Zack Snyder", <br> imageURL : "[image URL]", <br> isFeatured : "false" <br> } </td>
+            { <br> "title" : "Sucker Punch", <br> "description" : "[description]", <br> "genre" : "Action", <br>
+            "director" : "Zack Snyder", <br> "imageURL" : "[image URL]", <br> "isFeatured" : "false" <br> } </td>
       </tr>
       <tr>
         <td>Get genre description by name</td>
@@ -47,17 +47,17 @@
         <td>/movies/[Title]/[Director]</td>
         <td>GET</td>
         <td>none</td>
-        <td>A JSON object structured like: <br> { <br> name : "Austin DiVito", <br> bio : "[bio]", <br>
-            birthYear : 1996, <br> deathYear : 2095 <br> } </td>
+        <td>A JSON object structured like: <br> { <br> "name" : "Austin DiVito", <br> "bio" : "[bio]", <br>
+            "birthYear" : "1996", <br> "deathYear" : "2095" <br> } </td>
       </tr>
       <tr>
         <td>Register new user</td>
         <td>/users</td>
         <td>POST</td>
-        <td>A JSON object structured like: <br> { <br> name : "Austin DiVito", <br>
-            username : "CoolDude475" <br> } </td>
-        <td>A JSON object structured like: <br> { <br> id : "uvwxyz", <br>
-            name : "Austin DiVito", <br> username : "CoolDude475" <br> } </td>
+        <td>A JSON object structured like: <br> { <br> "name" : "Austin DiVito", <br>
+            "username" : "CoolDude475" <br> } </td>
+        <td>A JSON object structured like: <br> { <br> "id" : "uvwxyz", <br>
+            "name" : "Austin DiVito", <br> "username" : "CoolDude475" <br> } </td>
       </tr>
       <tr>
         <td>Update username</td>
