@@ -1,9 +1,17 @@
 const express = require("express"),
   morgan = require("morgan"),
   bodyParser = require("body-parser"),
-  uuid = require("uuid");
+  uuid = require("uuid"),
+  fs = require("fs"),
+  path = require("path");
 
 const app = express();
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
+  flags: "a",
+});
+
+app.use(morgan("combined", { stream: accessLogStream }));
 
 //movie list
 
@@ -60,7 +68,14 @@ let topMovies = [
   },
 ];
 
-let users = [];
+//user list
+let users = [
+  {
+    id: "uvwxyz",
+    name: "Austin DiVito",
+    username: "CoolDude475",
+  },
+];
 
 app.use(bodyParser.json());
 app.use(morgan("common"));
@@ -96,7 +111,7 @@ app.get("/movies/:title/genre", (req, res) => {
 });
 
 //get director data
-app.get("/movies/:title/director", (req, res) => {
+app.get("/movies/:title/:director", (req, res) => {
   res.send("a json object of a director");
 });
 
@@ -110,30 +125,51 @@ app.post("/users", (req, res) => {
   } else if (!newUser.username) {
     const message = "username is required";
     res.status(400).send(message);
-  } else {    
+  } else {
     newUser.id = uuid.v4();
     users.push(newUser);
     res.status(201).send(newUser); //should 'send, be 'json' instead?
   }
-}
-);
+});
 
 //update username by id
-app.put('/users/:id/:username', (req, res) => {
+app.put("/users/:id/:username", (req, res) => {
   let user = users.find((user) => {
     return user.id === req.params.id;
   });
 
   if (user) {
-    user.username = req.params.username
-    res
-      .status(201)
-      .send('username updated to ' + user.username);
+    user.username = req.params.username;
+    res.status(201).send("username updated to " + user.username);
   } else {
-    res.status(404).send('no user found by id: ' + req.params.id);
+    res.status(404).send("no user found by id: " + req.params.id);
   }
 });
 
+//add movie to favorites
+app.post("/users/:id/favorites/:title", (req, res) => {
+  res.send(req.params.title + " has been added to favorites");
+});
+
+//remove movie from favorites
+app.delete("/users/:id/favorites/:title", (req, res) => {
+  res.send(req.params.title + " has been removed from favorites");
+});
+
+//deregister user
+app.delete("/users/:username/", (req, res) => {
+  let user = users.find((user) => {
+    return user.username === req.params.username;
+  });
+
+  if (user) {
+    res.status(201).send("user " + user.username + " has been deregistered");
+  } else {
+    res.status(404).send("no user found by username: " + req.params.username);
+  }
+});
+
+//error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
