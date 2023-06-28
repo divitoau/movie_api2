@@ -1,7 +1,11 @@
 const express = require("express"),
-  morgan = require("morgan");
+  morgan = require("morgan"),
+  bodyParser = require("body-parser"),
+  uuid = require("uuid");
 
 const app = express();
+
+app.use(bodyParser.json());
 
 let topMovies = [
   {
@@ -69,6 +73,10 @@ app.get("/movies", (req, res) => {
   res.json(topMovies);
 });
 
+app.get("/users", (req, res) => {
+  res.json(users);
+});
+
 app.get("/movies/:title", (req, res) => {
   res.json(
     topMovies.find((movie) => {
@@ -87,18 +95,20 @@ app.get("/movies/:title/director", (req, res) => {
 
 app.post("/users", (req, res) => {
   let newUser = req.body;
+
   if (!newUser.name) {
     const message = "name is required";
     res.status(400).send(message);
   } else if (!newUser.username) {
     const message = "username is required";
     res.status(400).send(message);
-  } else {
+  } else {    
     newUser.id = uuid.v4();
     users.push(newUser);
     res.status(201).send(newUser); //should 'send, be 'json' instead?
   }
-});
+}
+);
 
 app.put('/users/:id/:username', (req, res) => {
   let user = users.find((user) => {
