@@ -3,7 +3,14 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   uuid = require("uuid"),
   fs = require("fs"),
-  path = require("path");
+  path = require("path"),
+  mongoose = require('mongoose'),
+  Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.Users;
+
+mongoose.connect('nogodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
 
@@ -12,9 +19,11 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
 });
 
 app.use(morgan("combined", { stream: accessLogStream }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 //movie list
-
 let topMovies = [
   {
     title: "Sucker Punch",
@@ -77,10 +86,6 @@ let users = [
   },
 ];
 
-app.use(bodyParser.json());
-app.use(morgan("common"));
-app.use(express.static("public"));
-
 //home page
 app.get("/", (req, res) => {
   res.send("Howdy, I hope you like movies!");
@@ -116,20 +121,36 @@ app.get("/movies/:title/:director", (req, res) => {
 });
 
 //register new user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
 app.post("/users", (req, res) => {
-  let newUser = req.body;
-
-  if (!newUser.name) {
-    const message = "name is required";
-    res.status(400).send(message);
-  } else if (!newUser.username) {
-    const message = "username is required";
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).send(newUser); //should 'send, be 'json' instead?
-  }
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+        }).then((user) => { res.status(201).json(user) })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
 });
 
 //update username by id
