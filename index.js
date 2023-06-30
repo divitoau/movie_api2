@@ -8,9 +8,12 @@ const express = require("express"),
   Models = require('./models.js');
 
 const Movies = Models.Movie;
-const Users = Models.Users;
+const Users = Models.User;
 
-mongoose.connect('nogodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://127.0.0.1:27017/cfDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const app = express();
 
@@ -128,30 +131,33 @@ app.get("/movies/:title/:director", (req, res) => {
   Password: String,
   Email: String,
   Birthday: Date
-}*/
+}     */
 app.post("/users", (req, res) => {
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
+        return res.status(400).send(req.body.Username + "already exists");
       } else {
         Users.create({
           Username: req.body.Username,
           Password: req.body.Password,
           Email: req.body.Email,
-          Birthday: req.body.Birthday
-        }).then((user) => { res.status(201).json(user) })
+          Birthday: req.body.Birthday,
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
           .catch((error) => {
             console.error(error);
-            res.status(500).send('Error: ' + error);
-          })
+            res.status(500).send("Error: " + error);
+          });
       }
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send('Error: ' + error);
+      res.status(500).send("Error: " + error);
     });
-});
+});  
 
 //update username by id
 app.put("/users/:id/:username", (req, res) => {
