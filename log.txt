@@ -91,3 +91,7 @@
 ::ffff:127.0.0.1 - - [01/Jul/2023:03:06:00 +0000] "POST /users HTTP/1.1" 201 181 "-" "PostmanRuntime/7.32.3"
 ::ffff:127.0.0.1 - - [01/Jul/2023:03:06:42 +0000] "POST /users HTTP/1.1" 201 178 "-" "PostmanRuntime/7.32.3"
 ::ffff:127.0.0.1 - - [01/Jul/2023:03:06:50 +0000] "GET /users HTTP/1.1" 201 938 "-" "PostmanRuntime/7.32.3"
+::ffff:127.0.0.1 - - [01/Jul/2023:03:12:16 +0000] "GET /users HTTP/1.1" 201 938 "-" "PostmanRuntime/7.32.3"
+::ffff:127.0.0.1 - - [01/Jul/2023:03:13:17 +0000] "POST /users/captainyesterday/movies/649e4112af5c18522cfb228e HTTP/1.1" 200 204 "-" "PostmanRuntime/7.32.3"
+::ffff:127.0.0.1 - - [01/Jul/2023:03:13:21 +0000] "GET /users HTTP/1.1" 201 964 "-" "PostmanRuntime/7.32.3"
+::ffff:127.0.0.1 - - [01/Jul/2023:03:15:22 +0000] "DELETE /users/fakesies HTTP/1.1" 400 23 "-" "PostmanRuntime/7.32.3"

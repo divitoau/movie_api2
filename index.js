@@ -26,79 +26,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-//movie list
-let topMovies = [
-  {
-    title: "Sucker Punch",
-    director: "Zack Snyder",
-    year: 2011,
-  },
-  {
-    title: "Mad Max: Fury Road",
-    director: "George Miller",
-    year: 2015,
-  },
-  {
-    title: "Blade Runner 2049",
-    director: "Denis Villeneuve",
-    year: 2017,
-  },
-  {
-    title: "Repo! The Genetic Opera",
-    director: "Darren Lynn Bousman",
-    year: 2008,
-  },
-  {
-    title: "Pirates of the Caribbean: The Curse of the Black Pearl",
-    director: "Gore Verbinski",
-    year: 2003,
-  },
-  {
-    title: "1917",
-    director: "Sam Mendes",
-    year: 2019,
-  },
-  {
-    title: "Star Wars: Episode III - Revenge of the Sith",
-    director: "George Lucas",
-    year: 2005,
-  },
-  {
-    title: "Futurama: Into the Wild Green Yonder",
-    director: "Peter Avanzino",
-    year: 2009,
-  },
-  {
-    title: "Tropic Thunder",
-    director: "Ben Stiller",
-    year: 2008,
-  },
-  {
-    title: "Hot Fuzz",
-    director: "Edgar Wright",
-    year: 2007,
-  },
-];
-
-//user list
-let users = [
-  {
-    id: "uvwxyz",
-    name: "Austin DiVito",
-    username: "CoolDude475",
-  },
-];
-
-//home page
-app.get("/", (req, res) => {
-  res.send("Howdy, I hope you like movies!");
-});
-
-//get all movies
-app.get("/movies", (req, res) => {
-  res.json(topMovies);
-});
-
 //get all users
 app.get("/users", (req, res) => {
   Users.find()
@@ -121,25 +48,6 @@ app.get("/users/:Username", (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-});
-
-//get movie data by title
-app.get("/movies/:title", (req, res) => {
-  res.json(
-    topMovies.find((movie) => {
-      return movie.title === req.params.title;
-    })
-  );
-});
-
-//get genre description
-app.get("/movies/:title/genre", (req, res) => {
-  res.send("a description of a genre");
-});
-
-//get director data
-app.get("/movies/:title/:director", (req, res) => {
-  res.send("a json object of a director");
 });
 
 //register new user
@@ -229,11 +137,6 @@ app.post("/users/:Username/movies/:MovieID", (req, res) => {
     });
 });
 
-//remove movie from favorites
-app.delete("/users/:id/favorites/:title", (req, res) => {
-  res.send(req.params.title + " has been removed from favorites");
-});
-
 //deregister user
 app.delete("/users/:Username", (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
@@ -248,6 +151,40 @@ app.delete("/users/:Username", (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
+});
+
+//home page
+app.get("/", (req, res) => {
+  res.send("Howdy, I hope you like movies!");
+});
+
+//get all movies
+app.get("/movies", (req, res) => {
+  res.json(topMovies);
+});
+
+//get movie data by title
+app.get("/movies/:title", (req, res) => {
+  res.json(
+    topMovies.find((movie) => {
+      return movie.title === req.params.title;
+    })
+  );
+});
+
+//get genre description
+app.get("/movies/:title/genre", (req, res) => {
+  res.send("a description of a genre");
+});
+
+//get director data
+app.get("/movies/:title/:director", (req, res) => {
+  res.send("a json object of a director");
+});
+
+//remove movie from favorites
+app.delete("/users/:Username/movies/:MovieID", (req, res) => {
+  res.send(req.params.title + " has been removed from favorites");
 });
 
 //error handler
