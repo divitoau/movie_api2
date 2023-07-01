@@ -25,7 +25,7 @@
         <td>/movies</td>
         <td>GET</td>
         <td>none</td>
-        <td>A JSON object holding data about all movies</td>
+        <td>An array holding JSON objects of all movie titles</td>
       </tr>
       <tr>
         <td>Get movie data by title</td>
@@ -36,36 +36,45 @@
           A JSON object holding data about a single movie structured like:
           <br />
           { <br />
-          "title" : "Sucker Punch", <br />
-          "description" : "[description]", <br />
-          "genre" : "Action", <br />
-
-          "director" : "Zack Snyder", <br />
-          "imageURL" : "[image URL]", <br />
-          "isFeatured" : "false" <br />
+          "Genre": {}, <br />
+          "Director": {}, <br />
+          "Actors": [], <br />
+          "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
+          "Title": "Sucker Punch", <br />
+          "Description": "[description]", <br />
+          "ImagePath": "[image URL]", <br />
+          "Featured": boolean <br />
           }
         </td>
       </tr>
       <tr>
         <td>Get genre description by name</td>
-        <td>/movies/[Title]/[Genre]</td>
-        <td>GET</td>
-        <td>none</td>
-        <td>A text description</td>
-      </tr>
-      <tr>
-        <td>Get director data by name</td>
-        <td>/movies/[Title]/[Director]</td>
+        <td>/movies/[Title]/genre</td>
         <td>GET</td>
         <td>none</td>
         <td>
           A JSON object structured like: <br />
           { <br />
-          "name" : "Austin DiVito", <br />
-          "bio" : "[bio]", <br />
-          "birthYear" : "1996", <br />
-          "deathYear" : "2095" <br />
-          }
+          "Genre": { <br />
+          "Name": "[genre name]", <br />
+          "Description": "[genre description]" <br />
+          }}
+        </td>
+      </tr>
+      <tr>
+        <td>Get director data by name</td>
+        <td>/movies/[Title]/director</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "Director": { <br />
+          "Name": "[director name]", <br />
+          "Bio": "[director bio]" <br />
+          "Birth": "[director birth year]" <br />
+          "Death": "[director death year]" <br />
+          }}
         </td>
       </tr>
       <tr>
@@ -75,19 +84,19 @@
         <td>
           A JSON object structured like: <br />
           { <br />
-          "Username" : "CoolDude475", <br />
-          "Password" : "CoolPassword89", <br />
-          "Email" : "cooldude475@gmail.com", <br />
-          "Birthday" : "yyyy-mm-dd" <br />
+          "Username": "CoolDude475", <br />
+          "Password": "CoolPassword89", <br />
+          "Email": "cooldude475@gmail.com", <br />
+          "Birthday": "yyyy-mm-dd" <br />
           }
         </td>
         <td>
           A JSON object structured like: <br />
           { <br />
-          "Username" : "CoolDude475", <br />
-          "Password" : "CoolPassword89", <br />
-          "Email" : "cooldude475@gmail.com", <br />
-          "Birthday" : "yyyy-mm-dd", <br />
+          "Username": "CoolDude475", <br />
+          "Password": "CoolPassword89", <br />
+          "Email": "cooldude475@gmail.com", <br />
+          "Birthday": "yyyy-mm-dd", <br />
           "FavoriteMovies": [], <br />
           "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
           "__v": 0 <br />
@@ -101,13 +110,24 @@
         <td>
           A JSON object structured like: <br />
           { <br />
-          "Username" : "newUsername", <br />
-          "Password" : "newPassword", <br />
-          "Email" : "newEmail@gmail.com", <br />
-          "Birthday" : "yyyy-mm-dd" <br />
+          "Username": "newUsername", <br />
+          "Password": "newPassword", <br />
+          "Email": "newEmail@gmail.com", <br />
+          "Birthday": "yyyy-mm-dd" <br />
           }
         </td>
-        <td>A text message confirming the new username</td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
+          "Username": "newUsername", <br />
+          "Password": "newPassword", <br />
+          "Email": "newEmail@gmail.com", <br />
+          "Birthday": "yyyy-mm-dd", <br />
+          "FavoriteMovies": [], <br />
+          "__v": 0 <br />
+          }
+        </td>
       </tr>
       <tr>
         <td>Add movie to favorites list</td>
@@ -118,21 +138,32 @@
           A JSON object structured like: <br />
           { <br />
           "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
-          "Username" : "CoolDude475", <br />
-          "Password" : "CoolPassword89", <br />
-          "Email" : "cooldude475@gmail.com", <br />
-          "Birthday" : "yyyy-mm-dd", <br />
-          "FavoriteMovies": [addedMovieID], <br />
+          "Username": "CoolDude475", <br />
+          "Password": "CoolPassword89", <br />
+          "Email": "cooldude475@gmail.com", <br />
+          "Birthday": "yyyy-mm-dd", <br />
+          "FavoriteMovies": [updated array], <br />
           "__v": 0 <br />
           }
         </td>
       </tr>
       <tr>
         <td>Remove movie from favorites list</td>
-        <td>/users/[ID]/favorites/[Title]</td>
+        <td>/users/[Username]/movies/[MovieID]</td>
         <td>DELETE</td>
         <td>none</td>
-        <td>A text message confirming the movie that was removed</td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
+          "Username": "CoolDude475", <br />
+          "Password": "CoolPassword89", <br />
+          "Email": "cooldude475@gmail.com", <br />
+          "Birthday": "yyyy-mm-dd", <br />
+          "FavoriteMovies": [updated array], <br />
+          "__v": 0 <br />
+          }
+        </td>
       </tr>
       <tr>
         <td>Deregister user</td>
