@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
     <title>Movie API Documentation</title>
   </head>
   <body>
@@ -32,9 +32,18 @@
         <td>/movies/[Title]</td>
         <td>GET</td>
         <td>none</td>
-        <td>A JSON object holding data about a single movie structured like <br>
-            { <br> "title" : "Sucker Punch", <br> "description" : "[description]", <br> "genre" : "Action", <br>
-            "director" : "Zack Snyder", <br> "imageURL" : "[image URL]", <br> "isFeatured" : "false" <br> } </td>
+        <td>
+          A JSON object holding data about a single movie structured like <br />
+          { <br />
+          "title" : "Sucker Punch", <br />
+          "description" : "[description]", <br />
+          "genre" : "Action", <br />
+
+          "director" : "Zack Snyder", <br />
+          "imageURL" : "[image URL]", <br />
+          "isFeatured" : "false" <br />
+          }
+        </td>
       </tr>
       <tr>
         <td>Get genre description by name</td>
@@ -48,20 +57,44 @@
         <td>/movies/[Title]/[Director]</td>
         <td>GET</td>
         <td>none</td>
-        <td>A JSON object structured like: <br> { <br> "name" : "Austin DiVito", <br> "bio" : "[bio]", <br>
-            "birthYear" : "1996", <br> "deathYear" : "2095" <br> } </td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "name" : "Austin DiVito", <br />
+          "bio" : "[bio]", <br />
+          "birthYear" : "1996", <br />
+          "deathYear" : "2095" <br />
+          }
+        </td>
       </tr>
       <tr>
         <td>Register new user</td>
         <td>/users</td>
         <td>POST</td>
-        <td>A JSON object structured like: <br> { <br> "name" : "Austin DiVito", <br>
-            "username" : "CoolDude475" <br> } </td>
-        <td>A JSON object structured like: <br> { <br> "id" : "uvwxyz", <br>
-            "name" : "Austin DiVito", <br> "username" : "CoolDude475" <br> } </td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "Username" : "CoolDude475", <br />
+          "Password" : "CoolPassword89", <br />
+          "Email" : "cooldude475@gmail.com", <br />
+          "Birthday" : "yyyy-mm-dd" <br />
+          }
+        </td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "Username" : "CoolDude475", <br />
+          "Password" : "CoolPassword89", <br />
+          "Email" : "cooldude475@gmail.com", <br />
+          "Birthday" : "yyyy-mm-dd", <br />
+          "FavoriteMovies": [], <br />
+          "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
+          "__v": 0 <br />
+          }
+        </td>
       </tr>
       <tr>
-        <td>Update username</td>
+        <td>Update user info</td>
         <td>/users/[ID]/[username]</td>
         <td>PUT</td>
         <td>none</td>

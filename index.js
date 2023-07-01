@@ -97,7 +97,7 @@ app.post("/users", (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put("/users/:username", (req, res) => {
+app.put("/users/:Username", (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -151,11 +151,6 @@ app.delete("/users/:Username", (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-});
-
-//home page
-app.get("/", (req, res) => {
-  res.send("Howdy, I hope you like movies!");
 });
 
 //get all movies
