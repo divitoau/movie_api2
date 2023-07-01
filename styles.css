@@ -1,0 +1,17 @@
+body {
+    background-color: #fabeca;
+    padding: 1em;
+}
+
+table, th, td {
+    border: 1px solid;
+}
+
+td, th {
+    padding: .4em;
+
+}
+
+table {
+    width: 100%;
+}
