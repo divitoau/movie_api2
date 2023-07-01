@@ -33,7 +33,8 @@
         <td>GET</td>
         <td>none</td>
         <td>
-          A JSON object holding data about a single movie structured like <br />
+          A JSON object holding data about a single movie structured like:
+          <br />
           { <br />
           "title" : "Sucker Punch", <br />
           "description" : "[description]", <br />
@@ -95,17 +96,36 @@
       </tr>
       <tr>
         <td>Update user info</td>
-        <td>/users/[ID]/[username]</td>
+        <td>/users/[username]</td>
         <td>PUT</td>
-        <td>none</td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "Username" : "newUsername", <br />
+          "Password" : "newPassword", <br />
+          "Email" : "newEmail@gmail.com", <br />
+          "Birthday" : "yyyy-mm-dd" <br />
+          }
+        </td>
         <td>A text message confirming the new username</td>
       </tr>
       <tr>
         <td>Add movie to favorites list</td>
-        <td>/users/[ID]/favorites/[Title]</td>
+        <td>/users/[Username]/movies/[MovieID]</td>
         <td>POST</td>
         <td>none</td>
-        <td>A text message confirming the movie that was added</td>
+        <td>
+          A JSON object structured like: <br />
+          { <br />
+          "_id": "xxxxxxxxxxxxxxxxxxxxxxxx", <br />
+          "Username" : "CoolDude475", <br />
+          "Password" : "CoolPassword89", <br />
+          "Email" : "cooldude475@gmail.com", <br />
+          "Birthday" : "yyyy-mm-dd", <br />
+          "FavoriteMovies": [addedMovieID], <br />
+          "__v": 0 <br />
+          }
+        </td>
       </tr>
       <tr>
         <td>Remove movie from favorites list</td>
@@ -116,10 +136,10 @@
       </tr>
       <tr>
         <td>Deregister user</td>
-        <td>/users/[ID]</td>
+        <td>/users/[Username]</td>
         <td>DELETE</td>
         <td>none</td>
-        <td>A text message confirming the user was deregistered</td>
+        <td>A text message reading: "[Username] was deregistered"</td>
       </tr>
     </table>
   </body>
