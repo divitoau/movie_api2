@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let auth = require('./auth')(app);
-const passport = require('passport');
-requre('./passport');
+let auth = require("./auth")(app);
+const passport = require("passport");
+require("./passport");
 
 //get all users
 app.get("/users", (req, res) => {
@@ -158,17 +158,21 @@ app.delete("/users/:Username", (req, res) => {
 });
 
 //get all movies
-app.get("/movies", (req, res) => {
-  Movies.find()
-    .select({ Title: 1, _id: 0 })
-    .then((movies) => {
-      res.status(200).json(movies);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find()
+      .select({ Title: 1, _id: 0 })
+      .then((movies) => {
+        res.status(200).json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
 
 //get movie data by title
 app.get("/movies/:Title", (req, res) => {
