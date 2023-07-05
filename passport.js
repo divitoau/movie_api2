@@ -14,18 +14,20 @@ passport.use(
       passwordField: "Password",
     },
     (username, password, callback) => {
-      console.log(username + " " + password);
+      console.log(username + "  " + password);
       Users.findOne({ Username: username }, (error, user) => {
         if (error) {
-          console.error(error);
+          console.log(error);
           return callback(error);
         }
+
         if (!user) {
           console.log("incorrect username");
           return callback(null, false, {
-            message: "Incorrect username or Password.",
+            message: "Incorrect username or password.",
           });
         }
+
         console.log("finished");
         return callback(null, user);
       });
@@ -40,7 +42,7 @@ passport.use(
       secretOrKey: "your_jwt_secret",
     },
     (jwtPayload, callback) => {
-      return Users.fndById(jwtPayload._id)
+      return Users.findById(jwtPayload._id)
         .then((user) => {
           return callback(null, user);
         })
