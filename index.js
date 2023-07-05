@@ -26,6 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+let auth = require('./auth')(app);
+const passport = require('passport');
+requre('./passport');
+
 //get all users
 app.get("/users", (req, res) => {
   Users.find()
