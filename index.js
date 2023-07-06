@@ -1,34 +1,36 @@
-const express = require("express"),
-  morgan = require("morgan"),
-  bodyParser = require("body-parser"),
-  uuid = require("uuid"),
-  fs = require("fs"),
-  path = require("path"),
-  mongoose = require("mongoose"),
-  Models = require("./models.js");
+const express = require("express");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+const app = express();
+const uuid = require("uuid");
+
+const mongoose = require("mongoose");
+const Models = require("./models.js");
+
+const fs = require("fs");
+const path = require("path");
 
 const Movies = Models.Movie;
 const Users = Models.User;
-
-mongoose.connect("mongodb://127.0.0.1:27017/cfDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const app = express();
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
 
+app.use(express.static("public"));
+app.use(express.json());
 app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
+
+mongoose.connect("mongodb://127.0.0.1:27017/cfDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 //get all users
 app.get("/users", (req, res) => {
@@ -158,7 +160,10 @@ app.delete("/users/:Username", (req, res) => {
 });
 
 //get all movies
-app.get("/movies", passport.authenticate("jwt", { session: false }), (req, res) => {
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
     Movies.find()
       .select({ Title: 1, _id: 0 })
       .then((movies) => {
