@@ -51,6 +51,10 @@ mongoose.connect("mongodb://127.0.0.1:27017/cfDB", {
   useUnifiedTopology: true,
 });
 
+app.get("/", (req, res) => {
+  res.send("Howdy, I hope you like movies!");
+});
+
 //get all users
 app.get(
   "/users",
