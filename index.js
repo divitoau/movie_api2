@@ -22,7 +22,6 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require("cors");
 let allowedOrigins = [
@@ -49,11 +48,6 @@ app.use(
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
-
-/* mongoose.connect("mongodb://127.0.0.1:27017/cfDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}); */
 
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
@@ -340,6 +334,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
+
+app.use(express.static("public"));
 
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
