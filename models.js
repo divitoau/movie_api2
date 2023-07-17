@@ -39,9 +39,3 @@ let User = mongoose.model("User", userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
-
-/* including these two lines threw errors about Director and
-Genre not being defined and the server was unable to run */
-
-//module.exports.Director = Director;
-//module.exports.Genre = Genre;

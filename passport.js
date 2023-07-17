@@ -44,7 +44,7 @@ passport.use(
       secretOrKey: "your_jwt_secret",
     },
     (jwtPayload, done) => {
-      Users.findById(jwtPayload._id)
+      return Users.findById(jwtPayload._id)
         .then((user) => {
           return done(null, user);
         })
