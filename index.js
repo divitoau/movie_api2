@@ -104,7 +104,8 @@ app.get(
   Email: String,
   Birthday: Date
 }     */
-app.post("/users", (req, res) => {
+app.post(
+  "/users",
   [
     check("Username", "Username must be at least 5 characters").isLength({
       min: 5,
@@ -116,39 +117,39 @@ app.post("/users", (req, res) => {
     check("Password", "Password is required").not().isEmpty(),
     check("Email", "Email does not appear to be valid").isEmail(),
   ],
-    (req, res) => {
-      let errors = validationResult(req);
+  (req, res) => {
+    let errors = validationResult(req);
 
-      if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-      }
-    };
-  let hashedPassword = Users.hashPassword(req.body.Password);
-  Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + "already exists");
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        })
-          .then((user) => {
-            res.status(201).json(user);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + " already exists");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
           })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send("Error: " + error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Error: " + error);
-    });
-});
+            .then((user) => {
+              res.status(201).json(user);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send("Error: " + error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 
 //update user info by username
 /* We’ll expect JSON in this format
@@ -161,25 +162,23 @@ app.post("/users", (req, res) => {
 app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
+  [
+    check("Username", "Username must be at least 5 characters").isLength({
+      min: 5,
+    }),
+    check(
+      "Username",
+      "Username contains non alphanumerc characters - not allowed"
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
   (req, res) => {
-    [
-      check("Username", "Username must be at least 5 characters").isLength({
-        min: 5,
-      }),
-      check(
-        "Username",
-        "Username contains non alphanumerc characters - not allowed"
-      ).isAlphanumeric(),
-      check("Password", "Password is required").not().isEmpty(),
-      check("Email", "Email does not appear to be valid").isEmail(),
-    ],
-      (req, res) => {
-        let errors = validationResult(req);
+    let errors = validationResult(req);
 
-        if (!errors.isEmpty()) {
-          return res.status(422).json({ errors: errors.array() });
-        }
-      };
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
     let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate(
       { Username: req.params.Username },
