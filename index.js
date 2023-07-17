@@ -50,7 +50,7 @@ const passport = require("passport");
 require("./passport");
 
 mongoose.connect(
-  "mongodb+srv://divitoau:<password>@cool-cluster-1.3hofgt6.mongodb.net/?retryWrites=true&w=majority",
+  "mongodb+srv://divitoau:mGMJ0rDPJ1EFzSg7@cool-cluster-1.3hofgt6.mongodb.net/?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
