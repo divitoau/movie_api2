@@ -24,7 +24,8 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json());
 
 const cors = require("cors");
-let allowedOrigins = [
+app.use(cors());
+/* let allowedOrigins = [
   "http://localhost:8080",
   "http://testsite.com",
   "https://cool-movie-app-e45a3b27efd5.herokuapp.com/",
@@ -43,7 +44,7 @@ app.use(
       return callback(null, true);
     },
   })
-);
+); */
 
 let auth = require("./auth")(app);
 const passport = require("passport");
