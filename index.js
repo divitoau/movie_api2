@@ -106,10 +106,15 @@ app.get(
 }     */
 app.post("/users", (req, res) => {
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
-    check("Username", "Username contains invalid characters.").isAlphanumeric(),
-    check("Password", "Password is required.").not().isEmpty(),
-    check("Email", "Invalid Email").isEmail(),
+    check("Username", "Username must be at least 5 characters").isLength({
+      min: 5,
+    }),
+    check(
+      "Username",
+      "Username contains non alphanumerc characters - not allowed"
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
   ],
     (req, res) => {
       let errors = validationResult(req);
@@ -118,7 +123,6 @@ app.post("/users", (req, res) => {
         return res.status(422).json({ errors: errors.array() });
       }
     };
-
   let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
