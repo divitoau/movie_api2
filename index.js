@@ -163,15 +163,16 @@ app.put(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     [
-      check("Username", "Username must be at least 5 characters").isLength({
-        min: 5,
-      }),
       check(
         "Username",
-        "Username contains non alphanumerc characters - not allowed"
+        "Username is required with a minimum of 4 characters"
+      ).isLength({ min: 4 }),
+      check(
+        "Username",
+        "Username contains invalid characters."
       ).isAlphanumeric(),
-      check("Password", "Password is required").not().isEmpty(),
-      check("Email", "Email does not appear to be valid").isEmail(),
+      check("Password", "Password is required.").not().isEmpty(),
+      check("Email", "Invalid Email").isEmail(),
     ],
       (req, res) => {
         let errors = validationResult(req);
@@ -180,6 +181,7 @@ app.put(
           return res.status(422).json({ errors: errors.array() });
         }
       };
+
     let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -193,12 +195,16 @@ app.put(
       },
       { new: true }
     )
-      .then((user) => {
-        res.status(200).json(user);
+      .then((updatedUser) => {
+        res.json(updatedUser);
       })
       .catch((err) => {
-        console.error(err);
-        res.status(500).send("Error: " + err);
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
       });
   }
 );
