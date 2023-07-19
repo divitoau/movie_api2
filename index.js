@@ -251,7 +251,7 @@ app.get(
 //  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find()
-      .select({ Title: 1, _id: 0 })
+//      .select({ Title: 1, _id: 0 })
       .then((movies) => {
         res.status(200).json(movies);
       })
