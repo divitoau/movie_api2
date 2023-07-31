@@ -248,7 +248,7 @@ app.delete(
 //get all movies
 app.get(
   "/movies",
-//  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find()
 //      .select({ Title: 1, _id: 0 })
