@@ -25,12 +25,12 @@ app.use(bodyParser.json());
 
 const cors = require("cors");
 app.use(cors());
-let allowedOrigins = [
+/* let allowedOrigins = [
   "http://localhost:8080",
   "http://testsite.com",
   "https://cool-movie-app-e45a3b27efd5.herokuapp.com/",
   "http://localhost:1234/",
-  
+
 ];
 
 app.use(
@@ -46,7 +46,7 @@ app.use(
       return callback(null, true);
     },
   })
-);
+); */
 
 let auth = require("./auth")(app);
 const passport = require("passport");
