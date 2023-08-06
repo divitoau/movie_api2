@@ -29,7 +29,7 @@ let allowedOrigins = [
   "http://testsite.com",
   "https://cool-movie-app-e45a3b27efd5.herokuapp.com/",
   "http://localhost:1234",
-
+  "https://myflixcoolmovies.netlify.app",
 ];
 
 app.use(
@@ -252,7 +252,7 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find()
-//      .select({ Title: 1, _id: 0 })
+      //      .select({ Title: 1, _id: 0 })
       .then((movies) => {
         res.status(200).json(movies);
       })
