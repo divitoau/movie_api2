@@ -31,6 +31,7 @@ let allowedOrigins = [
   "http://localhost:1234",
   "https://myflixcoolmovies.netlify.app",
   "http://localhost:4200",
+  "https://divitoau.github.io",
 ];
 
 app.use(
