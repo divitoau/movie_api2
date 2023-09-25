@@ -238,7 +238,7 @@ app.delete(
         if (!user) {
           res.status(400).send(req.params.Username + " was not found.");
         } else {
-          res.status(200).send(req.params.Username + " was deregistered.");
+          res.status(204).send();
         }
       })
       .catch((err) => {
