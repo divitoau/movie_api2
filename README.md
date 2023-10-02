@@ -1,4 +1,4 @@
-An API to communicate with a movie information database. Developed through the MERN stack
+An API to communicate with a movie information database. Developed using express, data hosted on MongoDB, API hosted [right here](https://cool-movie-app-e45a3b27efd5.herokuapp.com/).
 
 |Business Logic|URL|HTTP Method|Request body data format|Response body data format|
 | -------------|---|-----------|------------------------|-------------------------|
