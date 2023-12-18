@@ -44,6 +44,7 @@ let allowedOrigins = [
   "https://divitoau.github.io",
   "http://localhost:5173",
   "http://127.0.0.1:5173",
+  "http://nuther-static-site-test.s3-website-us-east-1.amazonaws.com",
 ];
 
 /**
