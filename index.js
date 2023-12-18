@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const app = express();
 const { check, validationResult } = require("express-validator");
+require("dotenv").config();
 const {
   S3Client,
   ListObjectsV2Command,
