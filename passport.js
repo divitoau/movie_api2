@@ -14,7 +14,6 @@ passport.use(
       passwordField: "Password",
     },
     (username, password, done) => {
-      console.log(username + "  " + password);
       Users.findOne({ Username: username })
         .exec()
         .then((user) => {
@@ -26,7 +25,7 @@ passport.use(
             console.log("incorrect password");
             return done(null, false, { message: "Incorrect password." });
           }
-          console.log("finished");
+          console.log("logged in");
           return done(null, user);
         })
         .catch((error) => {

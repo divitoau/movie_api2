@@ -2,8 +2,13 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const app = express();
-const uuid = require("uuid");
 const { check, validationResult } = require("express-validator");
+const {
+  S3Client,
+  ListObjectsV2Command,
+  PutObjectCommand,
+} = require("@aws-sdk/client-s3");
+const fileUpload = require("express-fileupload");
 
 const mongoose = require("mongoose");
 const Models = require("./models.js");
@@ -13,6 +18,10 @@ const path = require("path");
 
 const Movies = Models.Movie;
 const Users = Models.User;
+const bucketName = "silly-lil-bucket-guy";
+const s3Client = new S3Client({
+  region: "us-east-1",
+});
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
@@ -22,6 +31,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json());
+app.use(fileUpload());
 
 const cors = require("cors");
 let allowedOrigins = [
@@ -32,6 +42,8 @@ let allowedOrigins = [
   "https://myflixcoolmovies.netlify.app",
   "http://localhost:4200",
   "https://divitoau.github.io",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
 ];
 
 /**
@@ -353,6 +365,36 @@ app.delete(
       });
   }
 );
+
+app.get("/images/:MovieID", (req, res) => {
+  const listObjectsParams = {
+    Bucket: bucketName,
+    Prefix: `resize/${req.params.MovieID}/`,
+  };
+  s3Client
+    .send(new ListObjectsV2Command(listObjectsParams))
+    .then((listObjectsResponse) => {
+      res.send(listObjectsResponse);
+    });
+});
+
+app.post("/images", (req, res) => {
+  const file = req.files.image;
+  const { movieID } = req.body;
+  const putObjectsParams = {
+    Body: file.data,
+    Bucket: bucketName,
+    Key: `original/${movieID}/${file.name}`,
+  };
+  s3Client.send(new PutObjectCommand(putObjectsParams)).then(
+    (putObjectsResponse) => {
+      res.send(putObjectsResponse);
+    },
+    () => {
+      res.status(500);
+    }
+  );
+});
 
 /**
  * handles any errors
